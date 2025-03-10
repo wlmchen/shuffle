@@ -1,0 +1,16 @@
+{
+  "name": "raspapi",
+  "version": "1.0.0",
+  "description": "A game for the RaspAPI YSWS",
+  "license": "ISC",
+  "author": "wlmchen",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

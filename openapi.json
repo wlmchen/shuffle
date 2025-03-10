@@ -1,0 +1,267 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Shuffle",
+    "version": "v1.0"
+  },
+  "servers": [
+    {
+      "url": "http://shuffle.duckdns.org/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "game",
+      "description": "All operations for the game"
+    }
+  ],
+  "paths": {
+    "/join": {
+      "post": {
+        "tags": [
+          "game"
+        ],
+        "summary": "Join the game",
+        "requestBody": {
+          "description": "Join the game with a name and initial direction in radians (decimal) between 0 and 2π",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Jane Doe"
+                  },
+                  "direction": {
+                    "type": "number",
+                    "example": 0.5
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid body"
+          },
+          "401": {
+            "description": "Your dot is already in the game"
+          }
+        }
+      }
+    },
+    "/board": {
+      "get": {
+        "tags": [
+          "game"
+        ],
+        "summary": "View the game board",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "dots": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Jane Doe"
+                          },
+                          "direction": {
+                            "type": "number",
+                            "example": 0.5
+                          },
+                          "x": {
+                            "type": "number",
+                            "example": 0.5
+                          },
+                          "y": {
+                            "type": "number",
+                            "example": 0.5
+                          },
+                          "mass": {
+                            "type": "number",
+                            "example": 3
+                          }
+                        }
+                      }
+                    },
+                    "toad": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "number",
+                          "example": 32
+                        },
+                        "y": {
+                          "type": "number",
+                          "example": 32
+                        }
+                      }
+                    },
+                    "bad_wall": {
+                      "type": "string",
+                      "example": "top"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited"
+          }
+        }
+      }
+    },
+    "/direction": {
+      "post": {
+        "tags": [
+          "game"
+        ],
+        "summary": "Change the direction of your dot",
+        "requestBody": {
+          "description": "Change your dot's direction in radians (decimal) between 0 and 2π",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "direction": {
+                    "type": "number",
+                    "example": 0.5
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Direction not specific"
+          },
+          "401": {
+            "description": "You're not in the game"
+          }
+        }
+      }
+    },
+    "/leaderboard": {
+      "get": {
+        "tags": [
+          "game"
+        ],
+        "summary": "View the leaderboard",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "Jane Doe"
+                      },
+                      "mass": {
+                        "type": "number",
+                        "example": 100
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/howami": {
+      "get": {
+        "tags": [
+          "game"
+        ],
+        "summary": "Get your dot's status with no rate limit",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number",
+                      "example": 98.5
+                    },
+                    "y": {
+                      "type": "number",
+                      "example": 22.6
+                    },
+                    "mass": {
+                      "type": "number",
+                      "example": 5
+                    },
+                    "direction": {
+                      "type": "number",
+                      "example": 0.2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You're not in the game"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Operation Successful"
+          }
+        }
+      }
+    }
+  }
+}
